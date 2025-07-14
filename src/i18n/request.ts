@@ -1,13 +1,13 @@
-import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
 
 const locales = ["ko", "en"] as const;
 
 export default getRequestConfig(async ({ locale }) => {
-  if (!locales.includes(locale as (typeof locales)[number])) notFound();
+  // notFound() 대신 기본값으로 fallback
+  const validLocale = locales.includes(locale as (typeof locales)[number]) ? locale : "ko";
 
   return {
-    locale: locale as string,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    locale: validLocale as string,
+    messages: (await import(`../messages/${validLocale}.json`)).default,
   };
 });
