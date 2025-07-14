@@ -28,7 +28,7 @@ export default async function RootLayout({
   // URL에서 locale 감지
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "/";
-  const locale = pathname.startsWith("/en") ? "en" : "ko";
+  const locale = pathname.split("/")[1] || "en";
 
   const messages = await getMessages({ locale });
 
